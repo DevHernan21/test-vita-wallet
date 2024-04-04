@@ -59,5 +59,6 @@ A pesar de los avances y funcionalidades desarrolladas, hay ciertos aspectos que
 
 - **Intercambios**: No se pudo desarrollar y maquetar la página de intercambios de criptomonedas.
 - **Perfil**: No se pudo desarrollar y maquetar la página de perfil del usuario.
+- **Mejoras**: Hay mejoras que hubiera gustado implementar para modularizar mas la aplicacion y asi sea mas escalable y facil de seguir (ej: interceptores e instancias de axios para manejar por ejemplo el vencimiento del token como seria el elemento `expiry` para el deslogueo automatico de la aplicación).
 
 Estos aspectos representan oportunidades para futuras mejoras y expansiones del proyecto.
