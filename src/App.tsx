@@ -1,25 +1,28 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import NotFoundPage from './pages/NotFoundPage';
+import Login from './pages/LoginPage';
+import PrivateLayout from './layouts/PrivateLayout';
+import HomePage from './pages/HomePage';
+import TransferPage from './pages/TransferPage';
+import RechargePage from './pages/RechargePage';
+import CryptoPage from './pages/CryptoPage';
+import ProfilePage from './pages/ProfilePage';
+import HelpPage from './pages/HelpPage';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route element={<PrivateLayout />}>
+        <Route index path="/home" element={<HomePage />} />
+        <Route path="/transfer" element={<TransferPage />} />
+        <Route path="/recharge" element={<RechargePage />} />
+        <Route path="/crypto" element={<CryptoPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/Help" element={<HelpPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
   );
 }
 

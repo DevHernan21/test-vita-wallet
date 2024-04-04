@@ -1,46 +1,63 @@
-# Getting Started with Create React App
+# test-vita-wallet
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este proyecto es una aplicación de billetera virtual que permite a los usuarios iniciar sesión y manejar sus datos financieros.
 
-## Available Scripts
+## Instrucciones de instalación y ejecución
 
-In the project directory, you can run:
+1. Clona el repositorio en tu máquina local utilizando `git clone`.
+2. Navega hasta el directorio del proyecto.
+3. Instala las dependencias del proyecto con `npm install`.
+4. Inicia la aplicación con `npm start`. La aplicación ahora debería estar corriendo en `localhost:3000`.
 
-### `npm start`
+## Uso de Contextos
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Este proyecto utiliza dos contextos de React para manejar el estado global de la aplicación:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- `AuthContext`: Este contexto se encarga de la autenticación del usuario. Mantiene el estado del usuario actual y proporciona funciones para iniciar y cerrar sesión.
+- `DataContext`: Este contexto se encarga de manejar los datos de la aplicación. Imita el comportamiento funcional real de una billetera virtual, permitiendo a los usuarios ver y actualizar sus datos financieros.
 
-### `npm test`
+## Arquitectura del Proyecto
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+El proyecto sigue una arquitectura modular para permitir una mayor escalabilidad. Los componentes de React se organizan en carpetas por funcionalidad, lo que facilita la adición de nuevas características a la aplicación.
 
-### `npm run build`
+Los contextos `AuthContext` y `DataContext` se utilizan para manejar el estado global de la aplicación, lo que permite un fácil acceso a los datos del usuario y a la información de la billetera virtual en cualquier parte de la aplicación.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Ampliación de la Aplicación
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Gracias a la arquitectura modular y al uso de contextos para el manejo del estado, la aplicación puede ser fácilmente ampliada con nuevas características. Por ejemplo, se podrían añadir nuevas funcionalidades a la billetera virtual, como la capacidad de realizar pagos o transferencias a otros usuarios.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Además, el `DataContext` podría ser ampliado para manejar más tipos de datos, y se podrían añadir más contextos si se necesitan manejar otros aspectos del estado global de la aplicación.
 
-### `npm run eject`
+## Colaboración con Endpoints
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Este proyecto ha logrado consumir todos los endpoints con el seteo automático de los headers requeridos mediante el contexto. Aquí están los endpoints:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. `https://api.qa.vitawallet.io/api/auth/sign_in`: Para realizar inicio de sesión y obtener información de la cuenta y headers de sesión, las cuales encontrará en las cabeceras de respuesta.
+2. `https://api.qa.vitawallet.io/api/profile`: Para obtener balance actualizado e información actualizada del usuario.
+3. `https://api.qa.vitawallet.io/api/users/get_crypto_multi_prices`: Para obtener precios actualizados del usuario, tomar en consideración que debe ser llamado periódicamente y/o previo a realizar un intercambio.
+4. `https://api.qa.vitawallet.io/api/transactions`: Para listar las transacciones realizadas por el usuario, diferencias por categorías y estados de las mismas.
+5. `https://api.qa.vitawallet.io/api/transactions/exchange`: Para realizar y ejecutar transacciones de intercambio.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+## Headers requeridos para el uso de los endpoints:
+- `app-name`: Nombre de la aplicación. Ejemplo: 'ANGIE'
+- `access-token`: Token de acceso. Ejemplo: 'x_uLoN1ZpGDQevRJ3H-nvg'
+- `uid`: Identificador de usuario. Ejemplo: 'prospecto@vitawallet.io'
+- `expiry`: Fecha de expiración del token. Ejemplo: '1708369100'
+- `client`: Identificador del cliente. Ejemplo: 'TZyhBEBkunW6Y9xOmeBmMA'
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Objetivo Principal de la Aplicación
 
-## Learn More
+El objetivo principal de esta aplicación es imitar el comportamiento de una billetera virtual. Los usuarios pueden interactuar con las billeteras cargadas con diferentes componentes, como las transferencias, para modificar los datos del contexto. 
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Esto permite a los usuarios ver su información financiera actualizada en tiempo real. Por ejemplo, después de realizar una transferencia, los usuarios pueden ver el descuento en su billetera y la transacción en su historial de transacciones en la página de inicio.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Esta funcionalidad proporciona a los usuarios una experiencia de usuario fluida y coherente, similar a la de una billetera virtual real. Los usuarios pueden gestionar sus finanzas y realizar transacciones con facilidad, todo en un solo lugar.
+
+## Limitaciones y Trabajo Pendiente
+
+A pesar de los avances y funcionalidades desarrolladas, hay ciertos aspectos que no se pudieron completar:
+
+- **Intercambios**: No se pudo desarrollar y maquetar la página de intercambios de criptomonedas.
+- **Perfil**: No se pudo desarrollar y maquetar la página de perfil del usuario.
+
+Estos aspectos representan oportunidades para futuras mejoras y expansiones del proyecto.
