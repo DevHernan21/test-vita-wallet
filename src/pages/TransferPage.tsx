@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import TransferForm from '../components/formSteps/TransferForm';
-import ResumeForm from '../components/formSteps/ResumeForm';
+import TransferForm from '../components/transferSteps/TransferForm';
+import ResumeForm from '../components/transferSteps/ResumeForm';
 import IconBack from '../assets/icons/icon-back.svg';
 import { Formik, FormikHelpers } from 'formik';
 import useTransferFormik from '../hooks/transfer/useTrasnferFormik';
 import NotFoundPage from './NotFoundPage';
-import TransferSuccess from '../components/formSteps/TransferSuccess';
+import TransferSuccess from '../components/transferSteps/TransferSuccess';
 
 const labelSteps = [
     {

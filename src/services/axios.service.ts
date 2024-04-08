@@ -16,8 +16,8 @@ export const Login = async (loginData: any) => {
             }
         });
         return response;
-    } catch (error) {
-        console.error(error);
+    } catch (error: any) {
+        return error;
     }
 }
 

@@ -3,7 +3,6 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import Loader from "../components/commons/Loader";
-import Login from "../pages/LoginPage";
 
 const PrivateLayout = () => {
     const { token } = useAuth();
@@ -20,7 +19,7 @@ const PrivateLayout = () => {
         setTimeout(() => setLoading(false), 5000);
     }, [])
 
-    return loading ? (
+    return loading && token ? (
         <Loader />
     ) : (
         <>

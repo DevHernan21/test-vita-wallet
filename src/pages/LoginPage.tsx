@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useLoginFormik from '../hooks/login/useLoginFormik';
 import ImageLogin from '../assets/images/image-login.png';
+import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline'
 
 const Login = () => {
     const { formik } = useLoginFormik();
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
 
     return (
         <div className="h-screen flex justify-center items-center">
@@ -27,12 +33,12 @@ const Login = () => {
                             <div className="text-red">{formik.errors.email}</div>
                         )}
                     </div>
-                    <div className="form-control mb-4" >
+                    <div className="form-control mb-4 relative">
                         <label htmlFor="password" className="block">
                             Contraseña
                         </label>
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             id="password"
                             name="password"
                             className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
@@ -40,6 +46,9 @@ const Login = () => {
                             value={formik.values.password}
                             autoComplete="off"
                         />
+                        <div onClick={togglePasswordVisibility} className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer h-88">
+                            {showPassword ? <EyeIcon className="h-6 w-6" /> : <EyeSlashIcon className="h-6 w-6" />}
+                        </div>
                         {formik.errors.password && formik.touched.password && (
                             <div className="text-red">{formik.errors.password}</div>
                         )}
@@ -54,7 +63,7 @@ const Login = () => {
                     </div>
                 </form>
             </div>
-            <div className="w-1/2">
+            <div className="w-1/2 h-dvh">
                 <img src={ImageLogin} alt="Imagen de inicio de sesión" className="object-cover w-auto h-auto" />
             </div>
         </div>

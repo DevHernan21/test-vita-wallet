@@ -16,19 +16,10 @@ const useLoginFormik = () => {
 
     const validationSchema = Yup.object({
         email: Yup.string()
-            .email()
-            .matches(
-                /^prospecto@vitawallet\.io$/,
-                'El correo electrónico es incorrecto.'
-            )
-            .required('Requerido'),
+            .email('Debe ser un email válido')
+            .required('Tu correo electrónico es requerido.'),
         password: Yup.string()
-            .min(9, 'La contraseña debe tener 9 caracteres')
-            .matches(
-                /^Vita\.1212$/,
-                'La contraseña es incorrecta.'
-            )
-            .required('Requerido'),
+            .required('Tu contraseña es requerida.'),
     });
 
     const onSubmit = async (values: any) => {
@@ -39,7 +30,6 @@ const useLoginFormik = () => {
         };
 
         try {
-            navigate("/home", { replace: true });
             login && login(data.email, data.password, data.dev_mode);
         } catch (err) {
             console.log(err);

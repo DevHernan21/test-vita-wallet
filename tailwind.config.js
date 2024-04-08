@@ -18,6 +18,9 @@ module.exports = {
       fontFamily: {
         display: ["Open Sans", "sans-serif"],
       },
+      height: {
+        '88': '5.5rem',
+      }
     },
   },
   plugins: [

@@ -1,6 +1,8 @@
 import axios from "axios";
 import { ReactNode, createContext, useContext, useEffect, useMemo, useState } from "react";
 import { Login } from "../services/axios.service";
+import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
 
 interface IAuthContext {
     user?: Record<string, any> | null;
@@ -10,6 +12,7 @@ interface IAuthContext {
     uid: string;
     expiry: string;
     login: (email: string, password: string, dev_mode: boolean) => void;
+    register: (email: string, password: string, dev_mode: boolean) => void;
     logout: () => void;
 };
 
@@ -21,6 +24,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [client, setClient] = useState<string>('');
     const [uid, setUid] = useState<string>('');
     const [expiry, setExpiry] = useState<string>('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (token) {
@@ -46,25 +50,74 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
         try {
             const response = await Login(loginData);
-            const data = await response?.data.data;
-            const accessToken = await response?.headers['access-token'];
-            const client = await response?.headers['client'];
-            const uid = await response?.headers['uid'];
-            const expiry = await response?.headers['expiry'];
+            if (response?.status !== 200) {
+                const title = 'Login incorrecto';
+                const message = 'Usted no posee una cuenta en nuestra plataforma, regístrese con nosotros para disfrutar de los beneficios que tenemos preparados para ti';
+                Swal.fire({
+                    icon: 'error',
+                    title: title,
+                    text: message,
+                    showCancelButton: true,
+                    preConfirm: () => {
+                        navigate('/register')
+                    }
+                })
+            } else {
+                const data = await response?.data.data;
+                const accessToken = await response?.headers['access-token'];
+                const client = await response?.headers['client'];
+                const uid = await response?.headers['uid'];
+                const expiry = await response?.headers['expiry'];
+                setUser(data);
+                setToken_(accessToken);
+                setClient(client);
+                setUid(uid);
+                setExpiry(expiry);
+                navigate("/home", { replace: true });
+            }
+            return;
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
-            if (response?.status === 200) {
+    const register = async (email: string, password: string, dev_mode: boolean) => {
+        const registerData = {
+            email,
+            password,
+            dev_mode
+        };
+        try {
+            const response = await Login(registerData);
+            if (response?.status !== 200) {
+                const title = 'Registro incorrecto';
+                const message = 'Hubo un error en el registro, por favor intente nuevamente';
+                Swal.fire({
+                    icon: 'error',
+                    title: title,
+                    text: message,
+                    showCancelButton: true,
+                    preConfirm: () => {
+                        navigate('/register')
+                    }
+                })
+            } else {
+                const data = await response?.data.data;
+                const accessToken = await response?.headers['access-token'];
+                const client = await response?.headers['client'];
+                const uid = await response?.headers['uid'];
+                const expiry = await response?.headers['expiry'];
                 setUser(data);
                 setToken_(accessToken);
                 setClient(client);
                 setUid(uid);
                 setExpiry(expiry);
             }
-
             return;
         } catch (error) {
             console.error(error);
         }
-    };
+    }
 
     const logout = () => {
         localStorage.removeItem('token');
@@ -84,6 +137,7 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
         client,
         uid,
         expiry,
+        register,
     }
 
     return (

@@ -17,17 +17,27 @@ const HomePage = () => {
             try {
                 if (user) {
                     const responseData = await GetData();
-                    let allBalances;
-                    if (!data?.balanceCardData) {
-                        allBalances = sumBalances(responseData?.profile?.attributes?.balances, data?.balanceCardData ? data?.balanceCardData : balanceWalletData);
+                    if (data?.registeredUser) {
+                        setData({
+                            ...data,
+                            prices: responseData?.prices,
+                            balanceCardData: data?.balanceCardData ? data?.balanceCardData : balanceWalletData,
+                            historyTableData: data?.historyTableData ? data?.historyTableData : historyTableData
+                        })
+                    } else {
+                        let allBalances;
+                        if (!data?.balanceCardData) {
+                            allBalances = sumBalances(responseData?.profile?.attributes?.balances, data?.balanceCardData ? data?.balanceCardData : balanceWalletData);
+                        }
+                        setData({
+                            ...data,
+                            profile: responseData?.profile,
+                            prices: responseData?.prices,
+                            transactions: responseData?.transactions,
+                            balanceCardData: data?.balanceCardData ? data?.balanceCardData : allBalances,
+                            historyTableData: data?.historyTableData ? data?.historyTableData : historyTableData
+                        });
                     }
-                    setData({
-                        profile: responseData?.profile,
-                        prices: responseData?.prices,
-                        transactions: responseData?.transactions,
-                        balanceCardData: data?.balanceCardData ? data?.balanceCardData : allBalances,
-                        historyTableData: data?.historyTableData ? data?.historyTableData : historyTableData
-                    });
                 }
             } catch (error) {
                 console.error(error);
@@ -35,13 +45,15 @@ const HomePage = () => {
         }
         fetchData();
     }, []);
+    console.log('user del contexto user: ', user)
+    console.log('datos del contexto data: ', data)
 
     return (
         <div className="mt-6">
             <div className="mb-10 flex">
                 <img src={IconCash} alt="logo" className="w-12 h-12 mr-4" />
                 <h1 className="text-2xl font-semibold text-blue-gray-800">
-                    ¡Hola <span className="text-blue2">{user?.attributes?.first_name || 'Hernán'}</span>!
+                    ¡Hola <span className="text-blue2">{data?.registeredUser?.name ? data?.registeredUser.name : user?.attributes?.first_name}</span>!
                 </h1>
             </div>
             <h2 className="text-xl font-semibold text-blue-gray-800 mb-4">Mis Saldos</h2>

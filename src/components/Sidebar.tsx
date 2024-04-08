@@ -7,6 +7,7 @@ import CryptoPage from '../pages/CryptoPage';
 import ProfilePage from '../pages/ProfilePage';
 import HelpPage from '../pages/HelpPage';
 import { useAuth } from '../context/AuthContext';
+import { useData } from '../context/DataContext';
 
 const navigation = [
     { name: 'Inicio', href: '/home', current: true, key: 'home', component: HomePage },
@@ -19,6 +20,7 @@ const navigation = [
 
 const Sidebar = () => {
     const { logout } = useAuth();
+    const { setData } = useData();
     const [currentRoute, setCurrentRoute] = React.useState('/' + window.location.pathname.split('/')[1]);
     const navigate = useNavigate();
 
@@ -30,6 +32,7 @@ const Sidebar = () => {
     const handleLogout = () => {
         localStorage.removeItem('token');
         navigate('/login', { replace: true });
+        setData(null);
         logout;
     }
 

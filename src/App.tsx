@@ -8,11 +8,14 @@ import RechargePage from './pages/RechargePage';
 import CryptoPage from './pages/CryptoPage';
 import ProfilePage from './pages/ProfilePage';
 import HelpPage from './pages/HelpPage';
+import RegisterPage from './pages/RegisterPage';
+
 
 const App = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<RegisterPage />}/>
       <Route element={<PrivateLayout />}>
         <Route index path="/home" element={<HomePage />} />
         <Route path="/transfer" element={<TransferPage />} />
