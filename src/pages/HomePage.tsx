@@ -45,8 +45,6 @@ const HomePage = () => {
         }
         fetchData();
     }, []);
-    console.log('user del contexto user: ', user)
-    console.log('datos del contexto data: ', data)
 
     return (
         <div className="mt-6">

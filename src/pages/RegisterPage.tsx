@@ -59,7 +59,6 @@ const RegisterPage = () => {
             setActiveStep(activeStep + 1);
             actions.setSubmitting(false);
         } else {
-            console.log('Next step');
             setActiveStep((step) => step + 1)
             actions.setTouched({});
             actions.setSubmitting(false);
